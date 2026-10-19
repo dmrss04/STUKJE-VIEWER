@@ -1,4 +1,4 @@
-<p align="center">
+﻿<p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/logo-white.svg">
     <img src="assets/logo-black.svg" width="96" alt="Stukje Viewer logo">
@@ -34,9 +34,9 @@ Most viewers put more chrome around a file than the file itself. Stukje Viewer s
 
 ## Install
 
-1. Download `Stukje Viewer Setup.exe` from the [latest release](../../releases/latest).
-2. Run it. Windows SmartScreen may warn because the installer isn't code-signed. Choose **More info → Run anyway**.
-3. Right-click a PDF or image → **Open with** → **Stukje Viewer**. Tick *Always use this app* to make it the default.
+1. Download `Stukje-Viewer-Setup-1.0.0.exe` from the [latest release](../../releases/latest).
+2. Run it. Windows SmartScreen may warn because the installer isn't code-signed. Choose **More info â†’ Run anyway**.
+3. Right-click a PDF or image â†’ **Open with** â†’ **Stukje Viewer**. Tick *Always use this app* to make it the default.
 
 ## Controls
 
@@ -56,7 +56,7 @@ Most viewers put more chrome around a file than the file itself. Stukje Viewer s
 Requires [Node.js](https://nodejs.org) 20 or newer.
 
 ```sh
-git clone <this repo>
+git clone https://github.com/dmrss04/STUKJE-VIEWER.git
 cd STUKJE-VIEWER
 npm install
 npm start                       # run the viewer
