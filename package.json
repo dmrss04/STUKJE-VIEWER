@@ -1,0 +1,65 @@
+{
+  "name": "stukje-viewer",
+  "productName": "Stukje Viewer",
+  "version": "1.0.0",
+  "description": "Borderless PDF and image viewer",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win"
+  },
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "pdfjs-dist": "^4.10.38"
+  },
+  "devDependencies": {
+    "electron": "^38.8.6",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.stukje.viewer",
+    "productName": "Stukje Viewer",
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**",
+      "assets/icon.png",
+      "node_modules/pdfjs-dist/build/pdf.mjs",
+      "node_modules/pdfjs-dist/build/pdf.worker.mjs",
+      "node_modules/pdfjs-dist/cmaps/**",
+      "node_modules/pdfjs-dist/standard_fonts/**",
+      "node_modules/pdfjs-dist/package.json",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "fileAssociations": [
+      {
+        "ext": "pdf",
+        "name": "PDF Document"
+      },
+      {
+        "ext": [
+          "png",
+          "jpg",
+          "jpeg",
+          "jfif",
+          "gif",
+          "webp",
+          "bmp",
+          "svg",
+          "ico",
+          "avif"
+        ],
+        "name": "Image"
+      }
+    ],
+    "icon": "assets/icon.png"
+  }
+}

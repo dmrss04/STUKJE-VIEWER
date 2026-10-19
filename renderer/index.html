@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self' blob: data:; worker-src 'self' blob:; connect-src 'self' blob: data:">
+  <title>Stukje Viewer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="frame">
+    <div id="empty">
+      <div class="hint">
+        <div class="big">Drop a PDF or image</div>
+        <div class="small">or double-click / Ctrl+O to open</div>
+      </div>
+    </div>
+
+    <div id="pdf" class="view hidden" tabindex="-1"><div id="pages"></div></div>
+    <div id="img" class="view hidden" tabindex="-1"><img id="image" alt="" draggable="false"></div>
+
+    <div id="vthumb" class="thumb v"></div>
+    <div id="hthumb" class="thumb h"></div>
+
+    <div id="hud"></div>
+
+    <div id="controls">
+      <button id="b-min" title="Minimize">
+        <svg viewBox="0 0 12 12"><path d="M2 6h8"/></svg>
+      </button>
+      <button id="b-max" title="Maximize">
+        <svg viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7" rx="1"/></svg>
+      </button>
+      <button id="b-close" title="Close">
+        <svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6"/></svg>
+      </button>
+    </div>
+
+    <div class="edge" data-dir="n"></div>
+    <div class="edge" data-dir="s"></div>
+    <div class="edge" data-dir="e"></div>
+    <div class="edge" data-dir="w"></div>
+    <div class="edge" data-dir="ne"></div>
+    <div class="edge" data-dir="nw"></div>
+    <div class="edge" data-dir="se"></div>
+    <div class="edge" data-dir="sw"></div>
+
+    <div id="dropzone"></div>
+  </div>
+  <script type="module" src="renderer.js"></script>
+</body>
+</html>
