@@ -1,7 +1,7 @@
 {
   "name": "stukje-viewer",
   "productName": "Stukje Viewer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Borderless PDF and image viewer",
   "main": "main.js",
   "scripts": {

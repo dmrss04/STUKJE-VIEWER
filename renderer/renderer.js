@@ -532,6 +532,7 @@ addEventListener('keydown', (e) => {
   const ctrl = e.ctrlKey || e.metaKey;
   if (ctrl && e.key.toLowerCase() === 'o') return e.preventDefault(), openDialog();
   if (ctrl && e.key.toLowerCase() === 'w') return api.close();
+  if (ctrl && e.key.toLowerCase() === 't') return e.preventDefault(), api.tile();
   if (ctrl && (e.key === '=' || e.key === '+')) return e.preventDefault(), zoomBy(1.2);
   if (ctrl && e.key === '-') return e.preventDefault(), zoomBy(1 / 1.2);
   if (ctrl && e.key === '0') return e.preventDefault(), resetZoom();
