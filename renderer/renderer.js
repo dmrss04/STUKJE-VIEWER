@@ -533,6 +533,10 @@ addEventListener('keydown', (e) => {
   if (ctrl && e.key.toLowerCase() === 'o') return e.preventDefault(), openDialog();
   if (ctrl && e.key.toLowerCase() === 'w') return api.close();
   if (ctrl && e.key.toLowerCase() === 't') return e.preventDefault(), api.tile();
+  if (e.altKey && !ctrl && e.key.startsWith('Arrow')) {
+    e.preventDefault();
+    return api.swap(e.key.slice(5).toLowerCase());
+  }
   if (ctrl && (e.key === '=' || e.key === '+')) return e.preventDefault(), zoomBy(1.2);
   if (ctrl && e.key === '-') return e.preventDefault(), zoomBy(1 / 1.2);
   if (ctrl && e.key === '0') return e.preventDefault(), resetZoom();

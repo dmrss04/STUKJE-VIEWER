@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld('api', {
   close: () => ipcRenderer.send('win:close'),
   toggleMax: () => ipcRenderer.send('win:toggleMax'),
   tile: () => ipcRenderer.send('win:tile'),
+  swap: (dir) => ipcRenderer.send('win:swap', dir),
   dragStart: () => ipcRenderer.send('win:dragStart'),
   dragEnd: () => ipcRenderer.send('win:dragEnd'),
   resizeStart: (dir) => ipcRenderer.send('win:resizeStart', dir),

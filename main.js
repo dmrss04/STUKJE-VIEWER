@@ -186,10 +186,18 @@ function snapTo(win, zone, wa) {
 
 const TILE_GAP = 10; // px around and between tiled windows, so the rounded corners show
 
-const viewers = () =>
-  BrowserWindow.getAllWindows()
-    .filter((w) => w !== preview && !w.isDestroyed())
-    .sort((a, b) => a.id - b.id);
+// Tiling order by window id; Alt+arrow swaps reorder it, new windows go last.
+let tileOrder = [];
+const viewers = () => {
+  const wins = BrowserWindow.getAllWindows().filter((w) => w !== preview && !w.isDestroyed());
+  const rank = (w) => {
+    const i = tileOrder.indexOf(w.id);
+    return i < 0 ? Infinity : i;
+  };
+  wins.sort((a, b) => rank(a) - rank(b) || a.id - b.id);
+  tileOrder = wins.map((w) => w.id);
+  return wins;
+};
 
 // Grid cells for n windows: 'cols' puts them side by side, 'rows' stacks them.
 function tileRects(n, layout, wa) {
@@ -235,6 +243,39 @@ function tileAll(from) {
     w._snap = `tile-${next}`;
   });
   from.focus();
+}
+
+// Alt+arrow: swap the focused snapped/tiled window with its neighbour in that direction.
+function swapWith(win, dir) {
+  if (!win._snap) return;
+  const center = (b) => ({ x: b.x + b.width / 2, y: b.y + b.height / 2 });
+  const me = win.getBounds();
+  const c = center(me);
+  const horizontal = dir === 'left' || dir === 'right';
+  const sign = dir === 'right' || dir === 'down' ? 1 : -1;
+  let best = null;
+  let bestScore = Infinity;
+  for (const w of viewers()) {
+    if (w === win || !w._snap || w.isMinimized()) continue;
+    const o = center(w.getBounds());
+    const along = horizontal ? (o.x - c.x) * sign : (o.y - c.y) * sign;
+    const across = Math.abs(horizontal ? o.y - c.y : o.x - c.x);
+    if (along <= 1) continue; // not in that direction
+    const score = along + across * 2; // prefer neighbours in the same row/column
+    if (score < bestScore) {
+      bestScore = score;
+      best = w;
+    }
+  }
+  if (!best) return;
+  const other = best.getBounds();
+  win.setBounds(other);
+  best.setBounds(me);
+  [win._snap, best._snap] = [best._snap, win._snap];
+  const i = tileOrder.indexOf(win.id);
+  const j = tileOrder.indexOf(best.id);
+  if (i >= 0 && j >= 0) [tileOrder[i], tileOrder[j]] = [tileOrder[j], tileOrder[i]];
+  win.focus();
 }
 
 // Window drag / resize run in the main process by polling the cursor, so they
@@ -375,6 +416,9 @@ ipcMain.on('win:toggleMax', (e) => {
   setMax(win, !win._max);
 });
 ipcMain.on('win:tile', (e) => tileAll(winOf(e)));
+ipcMain.on('win:swap', (e, dir) => {
+  if (['left', 'right', 'up', 'down'].includes(dir)) swapWith(winOf(e), dir);
+});
 ipcMain.on('win:dragStart', (e) => startDrag(winOf(e)));
 ipcMain.on('win:dragEnd', (e) => endDrag(winOf(e)));
 ipcMain.on('win:resizeStart', (e, dir) => startResize(winOf(e), String(dir)));
